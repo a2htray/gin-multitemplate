@@ -15,12 +15,13 @@ const (
 
 // dirFile: return the file paths in a given directory
 func dirFiles(dir string, extension string) ([]string, error) {
-	return filepath.Glob(path.Join(dir, "*." + extension))
+	files, err := filepath.Glob(path.Join(dir, "*." + extension))
+	return files, err
 }
 
 // NameFunc is a callback function to point a generation of a template name
 func NamedFunc(t *TemplateInfo, file string) string {
-	return  strings.TrimSuffix(filepath.Base(file), "." + t.Extension)
+	return strings.TrimSuffix(filepath.Base(file), "." + t.Extension)
 }
 
 // TemplateInfo is the appointed template information
@@ -89,7 +90,8 @@ func (r *Render) LoadLayoutAndInclude() {
 	if !r.tf.isParsed {
 		r.tf.Parse()
 	}
-	layouts := make([]string, len(r.tf.layouts))
+
+	layouts := make([]string, 0, len(r.tf.layouts))
 	for _, layout := range r.tf.layouts {
 		layouts = append(layouts, layout)
 	}
@@ -97,8 +99,9 @@ func (r *Render) LoadLayoutAndInclude() {
 	var err error
 	for name, include := range r.tf.includes {
 		layoutsCopy := make([]string, len(layouts))
-		files := append(layoutsCopy, include)
-		r.templates[name], err = template.ParseFiles(files...)
+		copy(layoutsCopy, layouts)
+		layoutsCopy = append(layoutsCopy, include)
+		r.templates[name], err = template.ParseFiles(layoutsCopy...)
 		if err != nil {
 			panic(err)
 		}

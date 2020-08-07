@@ -18,8 +18,8 @@ func TestNamedFunc(t *testing.T) {
 
 func TestTemplateInfo_Parse(t *testing.T) {
 	tpInfo := &TemplateInfo{
-		LayoutDir: `D:\workspace\yunku\web\templates\layouts`,
-		IncludeDir: `D:\workspace\yunku\web\templates`,
+		LayoutDir: "./tests/layouts",
+		IncludeDir: "./tests",
 		Extension: "html",
 	}
 	tpInfo.Parse()
@@ -32,8 +32,8 @@ func TestTemplateInfo_Parse(t *testing.T) {
 
 func TestNewRender(t *testing.T) {
 	tpInfo := &TemplateInfo{
-		LayoutDir: `D:\\workspace\\yunku\\web\\templates\\layouts`,
-		IncludeDir: `D:\\workspace\\yunku\\web\\templates`,
+		LayoutDir: "./tests/layouts",
+		IncludeDir: "./tests",
 		Extension: "html",
 	}
 	render := NewRender(tpInfo)

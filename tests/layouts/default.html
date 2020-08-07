@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>{{ .Title }}</title>
+    {{ .RenderCSS }}
+</head>
+<body>
+    <div class="container-fluid">
+        {{template "content" .}}
+    </div>
+    {{ .RenderJS }}
+    {{template "javascript" .}}
+</body>
+</html>
