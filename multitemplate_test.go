@@ -18,9 +18,9 @@ func TestNamedFunc(t *testing.T) {
 
 func TestTemplateInfo_Parse(t *testing.T) {
 	tpInfo := &TemplateInfo{
-		LayoutDir: "./tests/layouts",
+		LayoutDir:  "./tests/layouts",
 		IncludeDir: "./tests",
-		Extension: "html",
+		Extension:  "html",
 	}
 	tpInfo.Parse()
 	fmt.Println(tpInfo.LayoutDir)
@@ -32,9 +32,9 @@ func TestTemplateInfo_Parse(t *testing.T) {
 
 func TestNewRender(t *testing.T) {
 	tpInfo := &TemplateInfo{
-		LayoutDir: "./tests/layouts",
+		LayoutDir:  "./tests/layouts",
 		IncludeDir: "./tests",
-		Extension: "html",
+		Extension:  "html",
 	}
 	render := NewRender(tpInfo)
 	fmt.Println(render.templates)

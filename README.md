@@ -15,21 +15,23 @@ import (
     "github.com/gin-gonic/gin"
 )
 
-router := gin.Default()
-
-router.HTMLRender = multitemplate.NewRender(&multitemplate.TemplateInfo{
-    LayoutDir: "./template/layout",
-    IncludeDir: "./template",
-    Extension: "html",
-})
-
-router.GET("/index", func(c *gin.Context) {
-    c.HTML(http.StatusOK, "index", gin.H{})
-})
-
-err = router.Run(":8080")
-
-if err != nil {
-    log.Fatal("starting the website ... failed")
+func main() {
+    router := gin.Default()
+    
+    router.HTMLRender = multitemplate.NewRender(&multitemplate.TemplateInfo{
+        LayoutDir: "./template/layout",
+        IncludeDir: "./template",
+        Extension: "html",
+    })
+    
+    router.GET("/index", func(c *gin.Context) {
+        c.HTML(http.StatusOK, "index", gin.H{})
+    })
+    
+    err = router.Run(":8080")
+    
+    if err != nil {
+        log.Fatal("starting the website ... failed")
+    }
 }
 ```

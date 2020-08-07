@@ -10,29 +10,29 @@ import (
 
 const (
 	defaultIncludeDir = "./templates"
-	defaultLayoutDir = "./templates/layouts"
+	defaultLayoutDir  = "./templates/layouts"
 )
 
 // dirFile: return the file paths in a given directory
 func dirFiles(dir string, extension string) ([]string, error) {
-	files, err := filepath.Glob(path.Join(dir, "*." + extension))
+	files, err := filepath.Glob(path.Join(dir, "*."+extension))
 	return files, err
 }
 
 // NameFunc is a callback function to point a generation of a template name
 func NamedFunc(t *TemplateInfo, file string) string {
-	return strings.TrimSuffix(filepath.Base(file), "." + t.Extension)
+	return strings.TrimSuffix(filepath.Base(file), "."+t.Extension)
 }
 
 // TemplateInfo is the appointed template information
 // The Render struct will parse the templates corresponding to this information
 type TemplateInfo struct {
-	LayoutDir string
-	Extension string
+	LayoutDir  string
+	Extension  string
 	IncludeDir string
-	isParsed bool
-	layouts map[string]string
-	includes map[string]string
+	isParsed   bool
+	layouts    map[string]string
+	includes   map[string]string
 }
 
 // Parse: parse the layout directory and include directory
@@ -67,11 +67,11 @@ func (t *TemplateInfo) Parse() *TemplateInfo {
 // DefaultTemplateInfo ...
 func DefaultTemplateInfo() *TemplateInfo {
 	t := (&TemplateInfo{
-		LayoutDir: defaultLayoutDir,
+		LayoutDir:  defaultLayoutDir,
 		IncludeDir: defaultIncludeDir,
-		Extension: "html",
-		layouts: make(map[string]string),
-		includes: make(map[string]string),
+		Extension:  "html",
+		layouts:    make(map[string]string),
+		includes:   make(map[string]string),
 	}).Parse()
 
 	return t
@@ -111,7 +111,7 @@ func (r *Render) LoadLayoutAndInclude() {
 // NewRender ...
 func NewRender(templateInfo *TemplateInfo) *Render {
 	r := &Render{
-		tf: templateInfo,
+		tf:        templateInfo,
 		templates: make(map[string]*template.Template),
 	}
 	r.LoadLayoutAndInclude()
@@ -122,10 +122,6 @@ func NewRender(templateInfo *TemplateInfo) *Render {
 func (r *Render) Instance(name string, data interface{}) render.Render {
 	return render.HTML{
 		Template: r.templates[name],
-		Data: data,
+		Data:     data,
 	}
 }
-
-
-
-
