@@ -2,7 +2,9 @@ package gin_multitemplate
 
 import (
 	"fmt"
+	render2 "github.com/gin-gonic/gin/render"
 	"github.com/stretchr/testify/assert"
+	"os"
 	"testing"
 )
 
@@ -38,4 +40,26 @@ func TestNewRender(t *testing.T) {
 	}
 	render := NewRender(tpInfo)
 	fmt.Println(render.templates)
+}
+
+func TestTemplateInfo_Delims(t *testing.T) {
+	tpInfo := &TemplateInfo{
+		LayoutDir:  "./tests/layouts",
+		IncludeDir: "./tests",
+		Extension:  "html",
+	}
+	tpInfo.Delims("${", "}}")
+	render := NewRender(tpInfo)
+
+	if err := render.Instance("delimiterChange", nil).(render2.HTML).
+		Template.
+		Execute(os.Stdout, struct {
+		Title string
+	}{
+		Title: "a2htray",
+	}); err != nil {
+		fmt.Println(err.Error())
+	}
+
+
 }

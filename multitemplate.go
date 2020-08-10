@@ -109,10 +109,12 @@ func (r *Render) LoadLayoutAndInclude() {
 		layoutsCopy := make([]string, len(layouts))
 		copy(layoutsCopy, layouts)
 		layoutsCopy = append(layoutsCopy, include)
-		r.templates[name], err = template.New(name).Delims(r.tf.leftDelim, r.tf.rightDelim).ParseFiles(layoutsCopy...)
+		// https://stackoverflow.com/questions/49043292/error-template-is-an-incomplete-or-empty-template
+		r.templates[name], err = template.New(filepath.Base(layoutsCopy[0])).Delims(r.tf.leftDelim, r.tf.rightDelim).ParseFiles(layoutsCopy...)
 		if err != nil {
 			panic(err)
 		}
+
 	}
 }
 
