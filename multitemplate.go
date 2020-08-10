@@ -30,9 +30,17 @@ type TemplateInfo struct {
 	LayoutDir  string
 	Extension  string
 	IncludeDir string
+	leftDelim  string
+	rightDelim string
 	isParsed   bool
 	layouts    map[string]string
 	includes   map[string]string
+}
+
+func (t *TemplateInfo) Delims(leftDelim, rightDelim string) TemplateInfo {
+	t.leftDelim = leftDelim
+	t.rightDelim = rightDelim
+	return *t
 }
 
 // Parse: parse the layout directory and include directory
@@ -101,7 +109,7 @@ func (r *Render) LoadLayoutAndInclude() {
 		layoutsCopy := make([]string, len(layouts))
 		copy(layoutsCopy, layouts)
 		layoutsCopy = append(layoutsCopy, include)
-		r.templates[name], err = template.ParseFiles(layoutsCopy...)
+		r.templates[name], err = template.New(name).Delims(r.tf.leftDelim, r.tf.rightDelim).ParseFiles(layoutsCopy...)
 		if err != nil {
 			panic(err)
 		}
